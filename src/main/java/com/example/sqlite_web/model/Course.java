@@ -4,26 +4,24 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "courses")
-public class Course {
+public class Course extends AbstractEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "course_name")
-    private String courseName;
+    private String name;
 
-    public Course() {}
-
-    public Course(String courseName) {
-        this.courseName = courseName;
+    public Course(Integer id, String name) {
+        super(id, name);
     }
 
-    public Long getId() {
-        return id;
+    public Course() {
+        super();
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getName() {
+        return name;
     }
 }

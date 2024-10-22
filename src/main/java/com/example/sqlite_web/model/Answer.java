@@ -5,14 +5,15 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "answers")
-public class Answer {
+public class Answer extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "question_id")
-    private int questionId;
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
 
     @Column(name = "answer_text")
     private String answer;
@@ -21,20 +22,17 @@ public class Answer {
     private boolean correct;
 
     public Answer() {
+        super();
     }
 
-    public Answer(int questionId, String answer, boolean correct) {
-        this.questionId = questionId;
-        this.answer = answer;
+    public Answer(Integer id, String answer, boolean correct, Question question) {
+        super(id, answer);
+        this.question = question;
         this.correct = correct;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public int getQuestionId() {
-        return questionId;
+    public Question getQuestion() {
+        return question;
     }
 
     public String getAnswer() {

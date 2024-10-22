@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import org.springframework.data.domain.Persistable;
 import org.springframework.util.Assert;
 
-import static com.example.sqlite_web.util.Util.getEffectiveClass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+import static com.example.sqlite_web.util.Util.getEffectiveClass;
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public abstract class AbstractBaseEntity implements Persistable<Integer> {
+public abstract class AbstractEntity implements Persistable<Integer> {
     public static final int START_SEQUENCE = 100_000;
 
     @Id
@@ -17,10 +19,16 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     private Integer id;
 
-    public AbstractBaseEntity() {}
+    @NotBlank
+    @Size(min = 2, max = 128)
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    public AbstractBaseEntity(Integer id) {
+    public AbstractEntity() {}
+
+    public AbstractEntity(Integer id, String name) {
         this.id = id;
+        this.name = name;
     }
 
     @Override
@@ -30,6 +38,14 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int id(){
@@ -44,13 +60,13 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + "]";
+        return getClass().getSimpleName() + " [id=" + id + " name=" + name + "]";
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getEffectiveClass(this) != getEffectiveClass(o)) return false;
-        return getId() != null && getId().equals(((AbstractBaseEntity) o).getId());
+        return getId() != null && getId().equals(((AbstractEntity) o).getId());
     }
 }

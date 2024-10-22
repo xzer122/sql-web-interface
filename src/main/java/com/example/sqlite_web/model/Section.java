@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "course_sections")
-public class Section {
+public class Section extends AbstractEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,11 @@ public class Section {
     private Course course;
 
     public Section() {
+        super();
     }
 
-    public Section(String sectionName, Course course) {
-        this.sectionName = sectionName;
+    public Section(int id, String sectionName, Course course) {
+        super(id, sectionName);
         this.course = course;
     }
 }

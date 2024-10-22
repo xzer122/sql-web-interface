@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = 'users')
-public class User extends AbstractNamedEntity{
+public class User extends AbstractEntity{
 
     private int id;
 
@@ -28,9 +28,8 @@ public class User extends AbstractNamedEntity{
         this(u.id, u.email, u.password, u.enabled, u.registrationDate, u.roles);
     }
 
-    public User(Integer id, String name, String email, String password, boolean enabled, Date registrationDate, Set<Role> roles) {
-        super(id, name);
-        this.email = email;
+    public User(Integer id, String email, String password, boolean enabled, Date registrationDate, Set<Role> roles) {
+        super(id, email);
         this.password = password;
         this.enabled = enabled;
         this.registrationDate = registrationDate;
